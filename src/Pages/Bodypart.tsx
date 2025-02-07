@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import CustomButton from '../Components/Button';
 
 const Bodypart: React.FC = () => {
   const navigate = useNavigate();
