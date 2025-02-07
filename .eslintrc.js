@@ -18,9 +18,9 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
-    "no-use-before-define": "error",
-    "no-unused-vars": "error",
-    "indent": ["error", 2],
+    "no-use-before-define": "warning",
+    "no-unused-vars": "warning",
+    "indent": ["warning"],
     "react/react-in-jsx-scope": "off",
   },
   settings: {

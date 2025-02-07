@@ -9,6 +9,10 @@ module.exports = {
           default: '#131921',
         },
       },
+      backgroundImage: {
+        'custom-gradient':
+          'linear-gradient(274.42deg, #92A3FD 0%, #9DCEFF 124.45%)',
+      },
     },
   },
   plugins: [],
