@@ -18,9 +18,9 @@ const Bodypart: React.FC = () => {
     navigate(`/exercises`);
   };
 
-  const completeWorkout = () => {
-    navigate('/home');
-  };
+  // const completeWorkout = () => {
+  //   navigate('/home');
+  // };
 
   return (
     <div className="p-5">
