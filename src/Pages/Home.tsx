@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import CustomButton from '../Components/Button';
 import { useNavigate } from 'react-router-dom';
 import { useFitnessContext } from '../Context/FitnessContext';
+import Bodypart from './Bodypart';
+import { workoutHeadings } from '../Data/MainData';
 
 const Home: React.FC = () => {
-
   const { isLoggedIn } = useFitnessContext();
   const navigate = useNavigate();
 
@@ -13,9 +13,17 @@ const Home: React.FC = () => {
       navigate('/');
     }
   }, [isLoggedIn, navigate]);
-    const handleCheckClick = () => {
-        navigate('/body-parts');
-    };
+
+  const navigateToExercise = (exerciseName: string) => {
+    navigate(`/body-parts/${exerciseName}`);
+  };
+
+  const today = new Date();
+  const dayOfWeek = today.getDay();
+  const exerciseIndex = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Sunday is 0, so set it to 6
+  const isSunday = dayOfWeek === 0;
+  const exercise = workoutHeadings[exerciseIndex];
+
   return (
     <div className="p-5 flex flex-col justify-between h-[85vh]">
       <div className="flex flex-row justify-between items-center">
@@ -51,11 +59,36 @@ const Home: React.FC = () => {
           </svg>
         </div>
       </div>
+      {!isSunday && (
+        <div className="p-5">
+          <div className="flex items-center justify-center">
+            <p className="text-xl font-bold">Upcoming Workout</p>
+          </div>
+          <div className="flex justify-between items-center mt-2 bg-[#eaf0ff] rounded-2xl py-4 px-6">
+            <div className="flex flex-col">
+              <p className="font-semibold text-lg">{exercise.name}</p>
+              <p className=" text-[#7B6F72] text-sm">
+                {exercise.numberOfExercises} Exercises
+              </p>
+              <div className="mt-4 -ml-0.5">
+                <button
+                  className="bg-white px-6 py-1 rounded-2xl"
+                  onClick={() => navigateToExercise(exercise.name)}
+                >
+                  <p className="bg-[linear-gradient(274.42deg,_#92A3FD_0%,_#9DCEFF_124.45%)] bg-clip-text text-transparent">
+                    View more
+                  </p>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {isSunday && 
+      <div>Today is rest day </div>
+      }
 
-      <div className="flex flex-row items-center justify-between bg-[#eaf0ff] rounded-[44px] py-4 px-8">
-        <p className="text-md">Today Target</p>
-        <CustomButton onClick={handleCheckClick}>Check</CustomButton>
-      </div>
+      <Bodypart />
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import React from 'react';
-import img from '../Assets/barbel.png';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { workoutData } from '../Data/MainData';
+import { Equipment } from '../Data/Equipment';
+import { ExerciseImage } from '../Data/ExerciseImage';
 
 const Exercises: React.FC = () => {
   const location = useLocation();
@@ -11,8 +12,8 @@ const Exercises: React.FC = () => {
   );
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate('/how-to-do-it');
+  const handleClick = (exerciseImage: string) => {
+    navigate(`/how-to-do-it/${exerciseImage}`);
   };
 
   const filteredExercises = workoutData[selectedPart] || [];
@@ -42,7 +43,7 @@ const Exercises: React.FC = () => {
               className="flex flex-col items-center justify-center gap-1"
             >
               <div className="bg-[#F7F8F8] p-2 flex items-center justify-center rounded-[20px] w-[120px] h-[120px]">
-                <img src={img} alt={`Equipment ${index + 1}`} />
+                <Equipment type={equipment} />
               </div>
               <p className="text-xs">{equipment}</p>
             </div>
@@ -53,19 +54,17 @@ const Exercises: React.FC = () => {
         <h2 className="text-lg font-bold">Exercises</h2>
         {filteredExercises.exercises.map((exercise, index) => (
           <div key={index} className="flex items-center mt-4">
-            <img
-              src={`https://s3-alpha-sig.figma.com/img/e3a3/10fc/bb0a8e26f5db42f5eb34fe9c5ecd777d?Expires=1739750400&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=tfrt7DQskP11uZQULZXCluaByJdEK~WnolV-s8N7x93uP2i4qfbgOB~PkuP89RlyNJZBKKX654l5khAo8oGm8uMwdLjjjRccq5PcgCf9Ndr3iQRdmcx8gWqxc4FfAlPrSLpOy9CATnGsoOCiSic11gVMq7nGwpOUmjChsYOXqRcIO-94pVFr9Asd3ZQxDlAMV7jbcWPPl8Un4xVzsNsFjx0K~-nH-huIVTEhNhJLVQgNPFAmvtTmD0lHNDuQnB69Z3NyFPKyne~RYqtsuU9pqlKz~FcEnUIwt6SprhAFvftof2SUyqodbj808fy0D2C2q~970f3uaxsRdKquX-u7hg__`}
-              alt={`Exercise ${index + 1}`}
-              className="w-[70px] h-[70px] rounded-[20px] mr-2"
-            />
+            <ExerciseImage type={exercise.image} size="sm" />
             <div className="flex-1">
               <p className=" font-semibold">{exercise.name}</p>
               <p className="text-xs text-[#7B6F72]">
-                {' '}
                 Sets: {exercise.sets} | Reps: {exercise.reps}
               </p>
             </div>
-            <button className="text-[44px]" onClick={handleClick}>
+            <button
+              className="text-[44px]"
+              onClick={() => handleClick(exercise.id)}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -93,7 +92,6 @@ const Exercises: React.FC = () => {
             </button>
           </div>
         ))}
-        {/* Add more exercises as needed */}
       </div>
       <div className="w-full p-1 pt-5 flex items-center justify-center">
         <div className="w-full p-1 pt-5 flex items-center justify-center">

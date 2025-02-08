@@ -14,7 +14,7 @@ const FitnessContext = createContext<FitnessState | undefined>(undefined);
 export const FitnessProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<string>("Guest");
     const [theme, setTheme] = useState<"light" | "dark">("light");
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
 
     return (
         <FitnessContext.Provider value={{ user, theme, isLoggedIn, setUser, setTheme, setIsLoggedIn }}>

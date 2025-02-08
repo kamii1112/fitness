@@ -1,49 +1,67 @@
 import React, { useEffect, useState } from 'react';
 import { useFitnessContext } from '../Context/FitnessContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ExercisesData } from '../Data/ExerciseData';
+import { ExerciseImage } from '../Data/ExerciseImage';
 
 const HowToDoIt: React.FC = () => {
-    const { isLoggedIn } = useFitnessContext();
-    const navigate = useNavigate();
-  
-    useEffect(() => {
-      if (!isLoggedIn) {
-        navigate('/');
-      }
-    }, [isLoggedIn, navigate]);
+  const { isLoggedIn } = useFitnessContext();
+  const navigate = useNavigate();
+  const { exerciseName } = useParams<{ exerciseName: string }>();
+  const exercise = ExercisesData.filter(
+    exercise => exercise.id === exerciseName
+  )[0];
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/');
+    }
+  }, [isLoggedIn, navigate]);
   const [readMore, setReadMore] = useState(false);
+
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   return (
     <div className="p-4 max-w-md mx-auto bg-white shadow-md rounded-lg">
       {/* Header Section */}
       <div className="flex justify-between items-center mb-4">
-        <button className="text-gray-600">
-          {/* <FaTimes size={20} /> */}
-          Times
-        </button>
-        <button className="text-gray-600">
-          {/* <FaEllipsisV size={20} /> */}
-          ellipse
-        </button>
-      </div>
-
-      {/* Exercise Video Section */}
-      <div className="relative mb-4">
-        <img
-          src="/path/to/video-thumbnail.jpg"
-          alt="Jumping Jack"
-          className="w-full rounded-lg"
-        />
-        <button className="absolute inset-0 flex items-center justify-center">
-          {/* <FaPlay size={40} className="text-white" /> */}
-          play
+        <button className="bg-[#F7F8F8] p-2 rounded-lg" onClick={handleBack}>
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 4L4 12"
+              stroke="#1D1617"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M4 4L12 12"
+              stroke="#1D1617"
+              stroke-width="1.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </button>
       </div>
 
       {/* Exercise Title and Stats */}
       <div className="mb-4">
-        <h1 className="text-2xl font-bold">Jumping Jack</h1>
-        <p className="text-gray-600">Easy | 390 Calories Burn</p>
+        <h1 className="text-2xl font-bold">{exerciseName}</h1>
+        <p className="text-gray-600">
+          {exercise.difficulty} | {exercise.caloriesBurned} Calories Burn
+        </p>
+      </div>
+      <div className="flex items-center justify-center mb-3">
+        <ExerciseImage type={exercise.image} size="lg" />
       </div>
 
       {/* Description Section */}
@@ -77,48 +95,17 @@ const HowToDoIt: React.FC = () => {
           <span className="text-gray-600">4 Steps</span>
         </div>
         <ol className="list-decimal list-inside space-y-2">
-          <li className="flex items-start">
-            <span className="text-pink-500 font-bold mr-2">01</span>
-            <div>
-              <h3
-                className="font-bold</button>
-                            "
-              >
-                Start Position
-              </h3>
-              <p className="text-gray-700">
-                Stand upright with your legs together and arms at your sides.
-              </p>
-            </div>
-          </li>
-          <li className="flex items-start">
-            <span className="text-pink-500 font-bold mr-2">02</span>
-            <div>
-              <h3 className="font-bold">Jump and Spread</h3>
-              <p className="text-gray-700">
-                Jump up, spreading your legs to shoulder-width apart and raising
-                your arms above your head.
-              </p>
-            </div>
-          </li>
-          <li className="flex items-start">
-            <span className="text-pink-500 font-bold mr-2">03</span>
-            <div>
-              <h3 className="font-bold">Return</h3>
-              <p className="text-gray-700">
-                Jump again to return to the starting position.
-              </p>
-            </div>
-          </li>
-          <li className="flex items-start">
-            <span className="text-pink-500 font-bold mr-2">04</span>
-            <div>
-              <h3 className="font-bold">Repeat</h3>
-              <p className="text-gray-700">
-                Repeat the movement for the desired number of repetitions.
-              </p>
-            </div>
-          </li>
+          {exercise.steps.map(steps => (
+            <li key={steps.title} className="flex items-start">
+              <span className="text-pink-500 font-bold mr-2">
+                {steps.stepNumber}
+              </span>
+              <div>
+                <h3 className="font-bold">{steps.title}</h3>
+                <p className="text-gray-700">{steps.instruction}</p>
+              </div>
+            </li>
+          ))}
         </ol>
       </div>
     </div>
