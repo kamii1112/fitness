@@ -1,0 +1,11 @@
+core.repositoryformatversion=0
+core.filemode=false
+core.bare=false
+core.logallrefupdates=true
+core.symlinks=false
+core.ignorecase=true
+branch.main.vscode-merge-base=origin/main
+remote.origin.url=https://github.com/kamii1112/fitness.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+user.name=Kamii
+user.email=kamiidaisuke@gamil.com

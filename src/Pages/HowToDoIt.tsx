@@ -1,6 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useFitnessContext } from '../Context/FitnessContext';
+import { useNavigate } from 'react-router-dom';
 
 const HowToDoIt: React.FC = () => {
+    const { isLoggedIn } = useFitnessContext();
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+      if (!isLoggedIn) {
+        navigate('/');
+      }
+    }, [isLoggedIn, navigate]);
   const [readMore, setReadMore] = useState(false);
 
   return (

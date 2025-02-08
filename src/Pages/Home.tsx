@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import CustomButton from '../Components/Button';
 import { useNavigate } from 'react-router-dom';
+import { useFitnessContext } from '../Context/FitnessContext';
 
 const Home: React.FC = () => {
 
-    const navigate = useNavigate();
+  const { isLoggedIn } = useFitnessContext();
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/');
+    }
+  }, [isLoggedIn, navigate]);
     const handleCheckClick = () => {
-        navigate('/today-target');
+        navigate('/body-parts');
     };
   return (
     <div className="p-5 flex flex-col justify-between h-[85vh]">

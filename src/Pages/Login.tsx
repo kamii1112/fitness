@@ -1,7 +1,22 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useFitnessContext } from '../Context/FitnessContext';
 
 const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const { setIsLoggedIn } = useFitnessContext();
+
+  const handleLoginClick = () => {
+    if (username === 'admin' && password === 'system') {
+      setIsLoggedIn(true);
+      navigate('/get-started');
+    } else {
+      alert('Username and password do not match');
+    }
+  };
 
   return (
     <div className="px-5 py-6 flex flex-col h-[85vh] justify-between">
@@ -42,6 +57,8 @@ const Login: React.FC = () => {
               type="email"
               placeholder="Username"
               className="bg-[#F7F8F8] outline-none flex-1"
+              value={username}
+              onChange={e => setUsername(e.target.value)}
             />
           </div>
         </div>
@@ -83,6 +100,8 @@ const Login: React.FC = () => {
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               className="bg-[#F7F8F8] outline-none flex-1"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
             />
             <button onClick={() => setShowPassword(!showPassword)}>
               {showPassword ? (
@@ -162,7 +181,10 @@ const Login: React.FC = () => {
         </div>
       </div>
       <div className="w-full p-1 pt-5 flex items-center justify-center">
-        <button className="bg-[#130F26] text-white px-20 py-4 rounded-[40px] bg-custom-gradient flex gap-3">
+        <button
+          className="bg-[#130F26] text-white px-20 py-4 rounded-[40px] bg-custom-gradient flex gap-3"
+          onClick={handleLoginClick}
+        >
           <svg
             width="24"
             height="24"
